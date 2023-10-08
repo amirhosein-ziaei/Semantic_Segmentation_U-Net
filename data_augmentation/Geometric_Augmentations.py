@@ -21,8 +21,9 @@ def horizontal_flip(image: Tensor, mask: Tensor, probability: float = 0.5) -> Tu
     if flip_prob > probability:
         flipped_image = tf.image.flip_left_right(image)
         flipped_mask = tf.image.flip_left_right(mask)
+        return flipped_image, flipped_mask
 
-    return flipped_image, flipped_mask
+    return image, mask
 
 
 def vertical_flip(image: Tensor, mask: Tensor, probability: float = 0.5) -> Tuple[Tensor, Tensor]:
