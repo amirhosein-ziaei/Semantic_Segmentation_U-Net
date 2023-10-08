@@ -18,7 +18,7 @@ def horizontal_flip(image: Tensor, mask: Tensor, probability: float = 0.5) -> Tu
     
     flip_prob = tf.random.uniform(())
     
-    if flip_prob > probability:
+    if flip_prob >= probability:
         flipped_image = tf.image.flip_left_right(image)
         flipped_mask = tf.image.flip_left_right(mask)
         return flipped_image, flipped_mask
@@ -41,10 +41,20 @@ def vertical_flip(image: Tensor, mask: Tensor, probability: float = 0.5) -> Tupl
     
     flip_prob = tf.random.uniform(())
 
-    if flip_prob > probability:
+    if flip_prob >= probability:
         flipped_image = tf.image.flip_up_down(image)
         flipped_mask = tf.image.flip_up_down(mask)
 
         return flipped_image, flipped_mask
 
     return image, mask
+
+def rotaion(image: Tensor, mask: Tensor, max_angle: int = 30) -> Tuple[Tensor, Tensor]:
+    angle = tf.random.uniform(shape=[], minval=-max_angle, maxval=max_angle, dtype=tf.float32) # output is scalar tensor
+
+    angle_rad = tf.math.divide(angle * tf.constant(3.14159265358979323846), tf.constant(180.0))
+
+    rotated_image = tf.image.rot90(image, k=tf.cast(angle_rad, dtype=tf.int32) // 90)
+    rotated_mask = tf.image.rot90(mask, k=tf.cast(angle_rad, dtype=tf.int32) // 90)
+
+    return rotated_image, rotated_mask
