@@ -75,4 +75,20 @@ def rotaion(image: Tensor, mask: Tensor, max_angle: int = 30, probability: float
         return rotated_image, rotated_mask
 
     return image, mask
-    
+
+
+def resize_image(image: Tensor, new_height: int, new_width: int, method: str = 'bilinear') -> Tensor:
+
+    method_mapping = {
+        'nearest': tf.image.ResizeMethod.NEAREST_NEIGHBOR,
+        'bilinear': tf.image.ResizeMethod.BILINEAR,
+        'bicubic': tf.image.ResizeMethod.BICUBIC,
+        'lanczos': tf.image.ResizeMethod.LANCZOS3,
+    }
+
+    if method not in method_mapping:
+        raise ValueError(f"Invalid interpolation method. Supported methods: {', '.join(method_mapping.keys())}")
+
+    resized_image = tf.image.resize(image, [new_height, new_width], method=method_mapping[method])
+
+    return resized_image
