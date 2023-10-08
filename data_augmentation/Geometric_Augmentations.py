@@ -49,12 +49,30 @@ def vertical_flip(image: Tensor, mask: Tensor, probability: float = 0.5) -> Tupl
 
     return image, mask
 
-def rotaion(image: Tensor, mask: Tensor, max_angle: int = 30) -> Tuple[Tensor, Tensor]:
-    angle = tf.random.uniform(shape=[], minval=-max_angle, maxval=max_angle, dtype=tf.float32) # output is scalar tensor
+def rotaion(image: Tensor, mask: Tensor, max_angle: int = 30, probability: float = 0.5) -> Tuple[Tensor, Tensor]:
+    """
+    Rotate the input image and mask by a random angle within the specified range using TensorFlow.
 
-    angle_rad = tf.math.divide(angle * tf.constant(3.14159265358979323846), tf.constant(180.0))
+    Args:
+        image (Tensor): The input image tensor.
+        mask (Tensor): The input mask tensor.
+        max_angle (int, optional): The maximum angle of rotation in degrees. Defaults to 30 degrees.
+        probability (float, optional): The probability of applying the vertical flip. Defaults to 0.5.
 
-    rotated_image = tf.image.rot90(image, k=tf.cast(angle_rad, dtype=tf.int32) // 90)
-    rotated_mask = tf.image.rot90(mask, k=tf.cast(angle_rad, dtype=tf.int32) // 90)
+    Returns:
+        Tuple[Tensor, tf.Tensor]: A tuple containing the rotated image and rotated mask tensors.
+    """
+    flip_prob = tf.random.uniform(())
+    
+    if flip_prob >= probability:
+        angle = tf.random.uniform(shape=[], minval=-max_angle, maxval=max_angle, dtype=tf.float32) # output is scalar tensor
 
-    return rotated_image, rotated_mask
+        angle_rad = tf.math.divide(angle * tf.constant(3.14159265358979323846), tf.constant(180.0))
+
+        rotated_image = tf.image.rot90(image, k=tf.cast(angle_rad, dtype=tf.int32) // 90)
+        rotated_mask = tf.image.rot90(mask, k=tf.cast(angle_rad, dtype=tf.int32) // 90)
+        
+        return rotated_image, rotated_mask
+
+    return image, mask
+    
