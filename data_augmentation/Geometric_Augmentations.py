@@ -105,3 +105,17 @@ def resize_image(image: Tensor, new_height: int, new_width: int, method: str = '
     resized_image = tf.image.resize(image, [new_height, new_width], method=method_mapping[method])
 
     return resized_image
+
+import tensorflow as tf
+from typing import Tuple
+
+def shear_image(image: tf.Tensor, shear_factor: float, shear_direction: str = 'horizontal', method: str = 'bilinear') -> tf.Tensor:
+
+    if shear_direction == 'horizontal':
+        shear_matrix = tf.constant([[1.0, shear_factor, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], dtype=tf.float32)
+    else:
+        shear_matrix = tf.constant([[1.0, 0.0, 0.0], [shear_factor, 1.0, 0.0], [0.0, 0.0, 1.0]], dtype=tf.float32)
+
+    sheared_image = tf.raw_ops.Affine(image=image, scale=shear_matrix, interpolation=method.upper())
+
+    return sheared_image
