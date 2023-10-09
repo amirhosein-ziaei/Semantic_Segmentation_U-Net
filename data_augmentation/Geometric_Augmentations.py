@@ -78,7 +78,20 @@ def rotaion(image: Tensor, mask: Tensor, max_angle: int = 30, probability: float
 
 
 def resize_image(image: Tensor, new_height: int, new_width: int, method: str = 'bilinear') -> Tensor:
+    """
+    Resize the input image tensor to the specified height and width using TensorFlow.
 
+    Args:
+        image (tf.Tensor): The input image tensor.
+        new_height (int): The new height for the resized image.
+        new_width (int): The new width for the resized image.
+        method (str, optional): The interpolation method to use ('nearest', 'bilinear', 'bicubic', etc.).
+            Defaults to 'bilinear'.
+
+    Returns:
+        tf.Tensor: The resized image tensor.
+    """
+    
     method_mapping = {
         'nearest': tf.image.ResizeMethod.NEAREST_NEIGHBOR,
         'bilinear': tf.image.ResizeMethod.BILINEAR,
