@@ -138,3 +138,12 @@ def shear_image(image: tf.Tensor, shear_factor: float, shear_direction: str = 'h
     sheared_image = tf.raw_ops.Affine(image=image, scale=shear_matrix, interpolation=method.upper())
 
     return sheared_image
+
+
+def translate_image(image: tf.Tensor, shift_x: int, shift_y: int, method: str = 'bilinear') -> tf.Tensor:
+  
+    translation_matrix = tf.constant([[1.0, 0.0, shift_x], [0.0, 1.0, shift_y], [0.0, 0.0, 1.0]], dtype=tf.float32)
+
+    translated_image = tf.raw_ops.Affine(image=image, scale=translation_matrix, interpolation=method.upper())
+
+    return translated_image
