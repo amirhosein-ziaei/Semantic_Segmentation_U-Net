@@ -140,8 +140,20 @@ def shear_image(image: tf.Tensor, shear_factor: float, shear_direction: str = 'h
     return sheared_image
 
 
-def translate_image(image: tf.Tensor, shift_x: int, shift_y: int, method: str = 'bilinear') -> tf.Tensor:
-  
+def translate_image(image: Tensor, shift_x: int, shift_y: int, method: str = 'bilinear') -> Tensor:
+    """
+    Apply translation (shift) transformation to the input image using TensorFlow.
+
+    Args:
+        image (Tensor): The input image tensor.
+        shift_x (int): The horizontal shift value.
+        shift_y (int): The vertical shift value.
+        method (str, optional): The interpolation method to use ('nearest', 'bilinear', 'bicubic', etc.).
+            Defaults to 'bilinear'.
+
+    Returns:
+        Tensor: The translated image tensor.
+    """
     translation_matrix = tf.constant([[1.0, 0.0, shift_x], [0.0, 1.0, shift_y], [0.0, 0.0, 1.0]], dtype=tf.float32)
 
     translated_image = tf.raw_ops.Affine(image=image, scale=translation_matrix, interpolation=method.upper())
