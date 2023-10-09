@@ -106,10 +106,16 @@ def resize_image(image: Tensor, new_height: int, new_width: int, method: str = '
 
     return resized_image
 
-import tensorflow as tf
-from typing import Tuple
 
 def shear_image(image: tf.Tensor, shear_factor: float, shear_direction: str = 'horizontal', method: str = 'bilinear') -> tf.Tensor:
+
+    valid_directions = ['horizontal', 'vertical']
+    if shear_direction not in valid_directions:
+        raise ValueError(f"Invalid shear direction. Supported directions: {', '.join(valid_directions)}")
+
+    valid_methods = ['nearest', 'bilinear', 'bicubic', 'lanczos']
+    if method not in valid_methods:
+        raise ValueError(f"Invalid interpolation method. Supported methods: {', '.join(valid_methods)}")
 
     if shear_direction == 'horizontal':
         shear_matrix = tf.constant([[1.0, shear_factor, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]], dtype=tf.float32)
