@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import Tensor
-from typing import Tuple
+from typing import Tuple 
 
 
 def horizontal_flip(image: Tensor, mask: Tensor, probability: float = 0.5) -> Tuple[Tensor, Tensor]:
