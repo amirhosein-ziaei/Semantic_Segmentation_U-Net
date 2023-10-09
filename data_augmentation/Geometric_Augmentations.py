@@ -108,7 +108,20 @@ def resize_image(image: Tensor, new_height: int, new_width: int, method: str = '
 
 
 def shear_image(image: tf.Tensor, shear_factor: float, shear_direction: str = 'horizontal', method: str = 'bilinear') -> tf.Tensor:
+    """
+    Apply shear transformation to the input image using TensorFlow.
 
+    Args:
+        image (tf.Tensor): The input image tensor.
+        shear_factor (float): The shear factor, which determines the amount of shear to apply.
+        shear_direction (str, optional): The shear direction ('horizontal' or 'vertical'). Defaults to 'horizontal'.
+        method (str, optional): The interpolation method to use ('nearest', 'bilinear', 'bicubic', etc.).
+            Defaults to 'bilinear'.
+
+    Returns:
+        tf.Tensor: The sheared image tensor.
+    """
+    
     valid_directions = ['horizontal', 'vertical']
     if shear_direction not in valid_directions:
         raise ValueError(f"Invalid shear direction. Supported directions: {', '.join(valid_directions)}")
