@@ -154,6 +154,10 @@ def translate_image(image: Tensor, shift_x: int, shift_y: int, method: str = 'bi
     Returns:
         Tensor: The translated image tensor.
     """
+    valid_methods = ['nearest', 'bilinear', 'bicubic', 'lanczos']
+    if method not in valid_methods:
+        raise ValueError(f"Invalid interpolation method. Supported methods: {', '.join(valid_methods)}")
+
     translation_matrix = tf.constant([[1.0, 0.0, shift_x], [0.0, 1.0, shift_y], [0.0, 0.0, 1.0]], dtype=tf.float32)
 
     translated_image = tf.raw_ops.Affine(image=image, scale=translation_matrix, interpolation=method.upper())
